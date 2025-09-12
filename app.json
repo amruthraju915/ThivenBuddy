@@ -1,4 +1,5 @@
 {
   "name": "Thiven",
-  "displayName": "Thiven"
+  "displayName": "Thiven",
+  "navigationTypeTabs": true
 }

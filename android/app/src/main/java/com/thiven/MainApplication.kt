@@ -1,4 +1,4 @@
-package com.thiven
+package com.thiven.buddy
 
 import android.app.Application
 import com.facebook.react.PackageList

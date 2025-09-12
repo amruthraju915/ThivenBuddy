@@ -1,4 +1,4 @@
-package com.thiven
+package com.thiven.buddy
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
