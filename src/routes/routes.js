@@ -26,6 +26,7 @@ import LeavesScreen from '../screens/LeavesScreen';
 import PayslipScreen from '../screens/PayslipScreen';
 import TimesheetScreen from '../screens/TimesheetScreen';
 import AddTimesheetScreen from '../screens/AddTimeSheet';
+import PaySlipViewScreen from '../screens/PaySlipViewScreen';
 
 const {width} = Dimensions.get('screen');
 
@@ -189,6 +190,11 @@ export const RoutesList = [
   {
     name: 'NewLeave',
     component: NewLeaveScreen,
+    options: noTabBarItemStyle,
+  },
+  {
+    name: 'PaySlip',
+    component: PaySlipViewScreen,
     options: noTabBarItemStyle,
   },
   // {

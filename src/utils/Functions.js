@@ -86,7 +86,7 @@ export async function getLeaveTypes(token) {
 }
 export async function getPayslips(token, page) {
   // daily-timesheets
-  let URL = APP_URL + `pay_slips?page=${page}`;
+  let URL = APP_URL + `payslips?page=${page}`;
   let val = [];
   try {
     const requestOptions = {
@@ -98,7 +98,7 @@ export async function getPayslips(token, page) {
     };
     const result = await RequestMake(URL, requestOptions);
     if (result?.success == 1) {
-      if (result?.data?.data?.length > 0) val = result?.data?.data;
+      if (result?.data?.length > 0) val = result?.data;
     }
   } catch (error) {
     //  console.log(error);

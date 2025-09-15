@@ -13,30 +13,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {appColors} from '../utils/appColors';
 import {getLeaves, getPayslips, getStorageItem} from '../utils/Functions';
 import {ACCESS_TOKEN, USER_DATA} from '../utils/ApiList';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
-const payslips = [
-  {id: '1', month: 'August 2025', amount: '₹45,000', status: 'Paid'},
-  {id: '2', month: 'July 2025', amount: '₹42,500', status: 'Paid'},
-  {id: '3', month: 'June 2025', amount: '₹40,000', status: 'Pending'},
-  {id: '4', month: 'May 2025', amount: '₹39,500', status: 'Failed'},
-  {id: '11', month: 'August 2025', amount: '₹45,000', status: 'Paid'},
-  {id: '21', month: 'July 2025', amount: '₹42,500', status: 'Paid'},
-  {id: '31', month: 'June 2025', amount: '₹40,000', status: 'Pending'},
-  {id: '41', month: 'May 2025', amount: '₹39,500', status: 'Failed'},
-  {id: '12', month: 'August 2025', amount: '₹45,000', status: 'Paid'},
-  {id: '22', month: 'July 2025', amount: '₹42,500', status: 'Paid'},
-  {id: '32', month: 'June 2025', amount: '₹40,000', status: 'Pending'},
-  {id: '42', month: 'May 2025', amount: '₹39,500', status: 'Failed'},
-];
 
 const getStatusStyle = status => {
   switch (status) {
-    case 'Paid':
+    case 'issued':
       return {backgroundColor: '#00C9A7'}; // teal
-    case 'Pending':
+    case 'pending':
       return {backgroundColor: '#FFA133'}; // orange
-    case 'Failed':
+    case 'failed':
       return {backgroundColor: '#FF4C61'}; // red
     default:
       return {backgroundColor: '#777'};
@@ -49,26 +35,25 @@ export default function PayslipScreen({route, navigation}) {
   const [disabled, setDisabled] = useState(false);
   const [page, setPage] = useState(1);
 
-  const [data, setData] = useState([]);
+  const [payslips, setData] = useState([]);
 
+  useFocusEffect(
+    useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+      return () => {
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          handleBackButtonClick,
+        );
+      };
+    }, [route]),
+  );
 
-    useFocusEffect(
-      useCallback(() => {
-        BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-        return () => {
-          BackHandler.removeEventListener(
-            'hardwareBackPress',
-            handleBackButtonClick,
-          );
-        };
-      }, [route]),
-    );
-  
-    const handleBackButtonClick = () => {
-      navigation.navigate('Profile');
-      return true;
-    };
-    
+  const handleBackButtonClick = () => {
+    navigation.navigate('Profile');
+    return true;
+  };
+
   useFocusEffect(
     useCallback(() => {
       setData([]);
@@ -110,7 +95,7 @@ export default function PayslipScreen({route, navigation}) {
       setDisabled(true);
       const resp = await getPayslips(token, page);
       if (resp?.length > 0) {
-        setData([...data, ...resp]);
+        setData([...payslips, ...resp]);
         setPage(page + 1);
         setTimeout(() => {
           setLoad(false);
@@ -125,18 +110,22 @@ export default function PayslipScreen({route, navigation}) {
     }
   };
 
-  const goBack = () => navigation.navigate("Profile");
+  const goBack = () => navigation.navigate('Profile');
+
+  const viewSlip = item => {
+    navigation.navigate('PaySlip', {item: item});
+  };
 
   const renderItem = ({item}) => (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => viewSlip(item)}>
       <View style={styles.row}>
-        <Text style={styles.month}>{item.month}</Text>
+        <Text style={styles.month}>{item.period_month}</Text>
         <View style={[styles.statusTag, getStatusStyle(item.status)]}>
           <Text style={styles.statusText}>{item.status}</Text>
         </View>
       </View>
-      <Text style={styles.amount}>{item.amount}</Text>
-    </View>
+      <Text style={styles.amount}>&#8377;{item.net_pay}</Text>
+    </TouchableOpacity>
   );
 
   return (
