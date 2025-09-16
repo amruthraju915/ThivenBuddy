@@ -162,14 +162,14 @@ export default function HomeScreen({route, navigation}) {
       <Text style={styles.greeting}>Hi {user?.full_name},</Text>
 
       {/* Search */}
-      <View style={styles.searchBox}>
+      {/* <View style={styles.searchBox}>
         <Icon name="search" size={18} color="#aaa" />
         <TextInput
           placeholder="Search..."
           placeholderTextColor="#aaa"
           style={styles.searchInput}
         />
-      </View>
+      </View> */}
 
       {/* Attendance Card */}
       <View style={styles.card}>
