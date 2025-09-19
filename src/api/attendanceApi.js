@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const attendanceApi = createApi({
   reducerPath: 'attendanceApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://your-backend.example.com/api',
+    baseUrl: 'https://attendanceintelligenzit.com',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) headers.set('authorization', `Bearer ${token}`);

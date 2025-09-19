@@ -94,6 +94,11 @@ export default function PaySlipViewScreen({route, navigation}) {
           <div class="netpay">
             <h2>Net Pay: ₹ ${netPay}</h2>
           </div>
+          <div class="section">
+          </div>
+          <div class="section">
+            <h6>This is system generated and needs no signature.</h6>
+          </div>
         </body>
       </html>
     `;
